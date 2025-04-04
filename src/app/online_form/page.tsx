@@ -6,6 +6,8 @@ import { client } from "@/sanity/lib/client";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
+import { useState } from "react";
+import Image from "next/image";
 
 type FormData = {
   name: string;
@@ -21,6 +23,8 @@ type FormData = {
 
 
 export default function StudentForm() {
+  let [dispaly, setdisplay] = useState<boolean>(false) // loading manage ho rahe hai
+
   const router = useRouter();
   // is ky nadar react hoot ky function use kar rahy hain jo ky form ky data ko handle karta hai
   const {
@@ -49,6 +53,8 @@ export default function StudentForm() {
 
   
   const onSubmit = (data: FormData) => {
+    let loading_manage = setdisplay(!dispaly) // sab sy end main loading ho rahe hai
+
     //  is ky andar live date or time arahe hai
     let live_Date = new Date();
     // is ky andar live date arahe hai
@@ -158,7 +164,8 @@ export default function StudentForm() {
               type="submit"
               className="w-full bg-indigo-600 text-white p-3 rounded-lg hover:bg-indigo-700"
             >
-              Submit
+              <span className={`${dispaly ? "hidden" : "block"}`}>Submit</span>  {/*  agar display false hoye gi to ye shoe hoyega*/}
+              <Image src={"/picture/loading.png"} alt="loading" width={36} height={36 } className={`${dispaly ? "block": "hidden"} mx-auto animate-spin`}/> {/*  agar display True hoye gi to ye shoe hoyega*/}
             </button>
           </form>
         </div>
